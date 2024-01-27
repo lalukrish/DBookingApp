@@ -177,7 +177,7 @@ function bookApartment(uint aid,uint[] memory dates) public payable {
     uint totalSecurityFee = (totalPrice * securityFee)/100;
     require(appartmentExist[aid],'Apartment not found!');
     require(msg.value >=(totalPrice + totalSecurityFee),"Insufficient fund");
-    require(dateAvailable(aid, dates),"One or more dats not available");
+    require(datasCleared(aid, dates),"One or more dats not available");
 
 for (uint i = 0; i < dates.length; i++) {
    BookingStruct memory booking;
@@ -283,7 +283,7 @@ function getBookings(uint aid,uint  bookingId) public view returns (BookingStruc
 
 
 function getBookings(uint aid) public view returns(BookingStruct[] memory){
-    return bookedDates[aid];
+    return bookingsOf[aid];
 }
 
 
@@ -301,7 +301,7 @@ function addReview(uint aid, string memory comment) public {
     review.id=reviewsOf[aid].length;
     review.aid=aid;
     review.owner=msg.sender;
-    review.timestamp=currentTime();
+    review.timeStamp = currentTime();
 
     reviewsOf[aid].push(review);
 
